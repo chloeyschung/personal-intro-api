@@ -1,0 +1,20 @@
+# Render 무료 플랜은 15분간 요청이 없으면 대기 상태로 내려간다.
+# 채점 기간 동안 백엔드가 깨어 있도록 주기적으로 한 번씩 호출한다.
+# 채점이 끝나면 이 파일을 지우거나 Actions 탭에서 비활성화할 것.
+name: keep-awake
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 \
+            https://personal-intro-api.onrender.com/memos)
+          echo "HTTP $code"
+          [ "$code" = "200" ]
