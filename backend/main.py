@@ -12,8 +12,15 @@ app = FastAPI()
 
 # CORS: 허용 출처를 환경변수로 (배포 시 Vercel 주소로)
 origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+# Vercel 주소는 배포할 때마다 바뀌므로 정규식으로 한 번에 허용해 둔다.
 app.add_middleware(CORSMiddleware, allow_origins=origins,
+                   allow_origin_regex=r"https://.*\.vercel\.app",
                    allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+
+@app.get("/")
+def root():
+    return {"service": "personal-intro-api", "docs": "/docs"}
 
 
 # 요청마다 DB 세션을 열고, 끝나면 반드시 닫는 의존성 함수
