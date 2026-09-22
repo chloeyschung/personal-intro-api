@@ -1,0 +1,339 @@
+<title>Plan 1:100</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+  :root{
+    --sheet:#faf9f6;
+    --line:#aeb2b6;
+    --line-2:#cdd0d2;
+    --ink:#1b1d20;
+    --ink-2:#6e7378;
+    --plot:#2f5d7c;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--sheet);color:var(--ink);font-family:"Barlow Condensed",Arial Narrow,sans-serif;overflow:hidden}
+
+  .sheet{position:fixed;inset:0;display:flex;flex-direction:column}
+
+  .topbar{display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+          padding:14px 18px;padding-top:calc(14px + env(safe-area-inset-top,0px));
+          font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.14em;
+          text-transform:uppercase;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .topbar strong{font-weight:400;color:var(--ink)}
+
+  .canvas{flex:1 1 auto;position:relative;min-height:0;touch-action:none;cursor:grab}
+  .canvas.dragging{cursor:grabbing}
+  svg{display:block;width:100%;height:100%}
+
+  #cam{transition:transform .72s cubic-bezier(.22,.7,.2,1)}
+  .canvas.dragging #cam{transition:none}
+
+  .wall{fill:none;stroke:var(--line);stroke-width:1.4;vector-effect:non-scaling-stroke}
+  .thin{fill:none;stroke:var(--line-2);stroke-width:.8;vector-effect:non-scaling-stroke}
+  .hit{fill:transparent;cursor:pointer}
+  .hit:hover + .roomlabel .rname{fill:var(--plot)}
+
+  .rname{font-size:13px;letter-spacing:.22em;text-transform:uppercase;fill:var(--ink);font-weight:400;transition:fill .3s ease}
+  .rnum{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:.1em;fill:var(--ink-2)}
+  .rarea{font-family:"IBM Plex Mono",monospace;font-size:7.5px;letter-spacing:.06em;fill:var(--ink-2)}
+
+  .items{opacity:0;transition:opacity .45s ease}
+  svg.lod1 .items,svg.lod2 .items{opacity:1}
+  .itext{font-size:7px;letter-spacing:.11em;text-transform:uppercase;fill:var(--ink)}
+  .imark{fill:none;stroke:var(--line);stroke-width:.8;vector-effect:non-scaling-stroke}
+  .swatch{stroke:var(--line-2);stroke-width:.6;vector-effect:non-scaling-stroke}
+
+  .annot{opacity:0;transition:opacity .45s ease}
+  svg.lod2 .annot{opacity:1}
+  .atext{font-family:"IBM Plex Mono",monospace;font-size:4.6px;letter-spacing:.04em;fill:var(--ink-2)}
+  .dim{stroke:var(--plot);stroke-width:.5;vector-effect:non-scaling-stroke;fill:none}
+
+  .room.active .rname{fill:var(--plot)}
+
+  /* title block */
+  .titleblock{position:absolute;right:16px;bottom:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));
+              border:1px solid var(--line);background:var(--sheet);min-width:234px}
+  .tbrow{display:grid;grid-template-columns:70px minmax(0,1fr);border-bottom:1px solid var(--line-2)}
+  .tbrow:last-child{border-bottom:0}
+  .tbk,.tbv{padding:5px 8px;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase}
+  .tbk{color:var(--ink-2);border-right:1px solid var(--line-2)}
+  .tbv{color:var(--ink);font-variant-numeric:tabular-nums}
+  .tbname{padding:9px 8px;font-family:"Barlow Condensed",sans-serif;font-size:17px;letter-spacing:.16em;
+          text-transform:uppercase;border-bottom:1px solid var(--line-2)}
+
+  .tools{position:absolute;left:16px;bottom:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:6px}
+  .tool{appearance:none;border:1px solid var(--line);background:var(--sheet);color:var(--ink-2);
+        font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+        padding:7px 11px;cursor:pointer}
+  .tool:hover{color:var(--ink);border-color:var(--ink-2)}
+  .tool:focus-visible{outline:1px solid var(--plot);outline-offset:2px}
+
+  .legend{position:absolute;left:16px;top:8px;font-family:"IBM Plex Mono",monospace;font-size:9px;
+          letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);line-height:1.9}
+  .legend b{font-weight:400;color:var(--ink)}
+
+  @media (max-width:700px){
+    .titleblock{min-width:0;right:12px;left:12px}
+    .tools{display:none}
+    .legend{display:none}
+    .tbrow{grid-template-columns:62px minmax(0,1fr)}
+  }
+  @media (prefers-reduced-motion:reduce){#cam,.items,.annot{transition:none!important}}
+</style>
+
+<div class="sheet">
+  <div class="topbar">
+    <span><strong>Index 2026</strong> &nbsp; Plan of things collected</span>
+    <span id="coord">X 0.00 &nbsp; Y 0.00 &nbsp; Z 1.00</span>
+  </div>
+
+  <div class="canvas" id="canvas">
+    <svg id="svg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet" aria-label="Plan drawing of collected things">
+      <g id="cam">
+        <!-- sheet frame -->
+        <rect class="thin" x="30" y="24" width="940" height="640"></rect>
+        <!-- plan envelope -->
+        <rect class="wall" x="56" y="56" width="604" height="544"></rect>
+        <g id="rooms"></g>
+      </g>
+    </svg>
+
+    <div class="legend">
+      <div><b>Level of detail</b></div>
+      <div>1:100 &nbsp; rooms</div>
+      <div>1:50 &nbsp;&nbsp; contents</div>
+      <div>1:20 &nbsp;&nbsp; annotations</div>
+    </div>
+
+    <div class="tools">
+      <button class="tool" id="fit" type="button">Fit sheet</button>
+      <button class="tool" id="zoomin" type="button">Zoom +</button>
+    </div>
+
+    <div class="titleblock">
+      <div class="tbname">Yoonsoo Chung</div>
+      <div class="tbrow"><div class="tbk">Drawing</div><div class="tbv">Index — 2026</div></div>
+      <div class="tbrow"><div class="tbk">Scale</div><div class="tbv" id="scaleout">1:100</div></div>
+      <div class="tbrow"><div class="tbk">Sheet</div><div class="tbv">A-01</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  var ROOMS = [
+    {id:"films", n:"01", name:"Films", x:56, y:56, w:330, h:224, area:"73.9",
+     items:[
+       {t:"Arrival", a:"2016 · 116 min · Villeneuve"},
+       {t:"Sicario", a:"2015 · 121 min · Villeneuve"},
+       {t:"Incendies", a:"2010 · 131 min · Villeneuve"},
+       {t:"Lost in Translation", a:"2003 · 102 min · Coppola"},
+       {t:"Like Father, Like Son", a:"2013 · 121 min · Kore-eda"}
+     ]},
+    {id:"music", n:"02", name:"Music", x:56, y:280, w:330, h:160, area:"52.8",
+     items:[
+       {t:"Rachmaninoff", a:"Piano Concerto No. 2"},
+       {t:"Mahler", a:"Symphony No. 5 · Adagietto"},
+       {t:"Chopin", a:"Nocturnes Op. 9"},
+       {t:"Tchaikovsky", a:"Violin Concerto in D"},
+       {t:"Brahms", a:"Intermezzo Op. 118 No. 2"},
+       {t:"Debussy", a:"Préludes"},
+       {t:"Bach", a:"Goldberg Variations · 1981"}
+     ]},
+    {id:"scent", n:"03", name:"Scent", x:56, y:440, w:330, h:160, area:"52.8",
+     swatches:[
+       {t:"Bal d'Afrique", a:"Byredo · warm · paper", c:"#b79a74"},
+       {t:"001 Woman", a:"Loewe · clean · skin", c:"#d8cfc4"},
+       {t:"Fico di Amalfi", a:"Acqua di Parma · citrus · fig", c:"#9db183"},
+       {t:"Sailing Day", a:"Margiela · airy · salt", c:"#a9bcc4"},
+       {t:"Silver Mountain Water", a:"Creed · clean · cold", c:"#c3ccd0"},
+       {t:"Clementine California", a:"Atelier Cologne · citrus", c:"#e0a86a"}
+     ]},
+    {id:"places", n:"04", name:"Places", x:386, y:56, w:274, h:304, area:"83.3",
+     cities:[
+       {t:"Seoul", a:"37.57 / 126.98", px:.46, py:.18},
+       {t:"Tokyo", a:"35.68 / 139.69", px:.78, py:.26},
+       {t:"Kobe", a:"34.69 / 135.20", px:.66, py:.32},
+       {t:"Osaka", a:"34.69 / 135.50", px:.70, py:.36},
+       {t:"Hong Kong", a:"22.32 / 114.17", px:.40, py:.72},
+       {t:"Shenzhen", a:"22.54 / 114.06", px:.40, py:.64},
+       {t:"Guangzhou", a:"23.13 / 113.26", px:.32, py:.58},
+       {t:"Berlin", a:"52.52 / 13.40", px:.12, py:.10},
+       {t:"Paris", a:"48.86 / 2.35", px:.06, py:.22}
+     ]},
+    {id:"notes", n:"05", name:"Notes", x:386, y:360, w:274, h:140, area:"38.4",
+     items:[
+       {t:"AI", a:"mostly a question about language"},
+       {t:"Vibe coding", a:"describing it well is most of the work"},
+       {t:"Product design", a:"deciding what not to build"},
+       {t:"Cities", a:"how people move at nine in the evening"},
+       {t:"Human behaviour", a:"why some interfaces feel obvious"},
+       {t:"Technology", a:"—"}
+     ]},
+    {id:"work", n:"06", name:"Work", x:386, y:500, w:274, h:100, area:"27.4",
+     items:[
+       {t:"01 AI content creation", a:""},
+       {t:"02 Conversational experience", a:""},
+       {t:"03 Collaborative tools", a:""}
+     ]}
+  ];
+
+  var roomsG = document.getElementById("rooms");
+  var svg = document.getElementById("svg");
+  var canvas = document.getElementById("canvas");
+  var coordOut = document.getElementById("coord");
+  var scaleOut = document.getElementById("scaleout");
+  var cam = document.getElementById("cam");
+
+  function el(name, attrs, text){
+    var e = document.createElementNS(SVGNS, name);
+    for(var k in attrs) e.setAttribute(k, attrs[k]);
+    if(text != null) e.textContent = text;
+    return e;
+  }
+
+  ROOMS.forEach(function(r){
+    var g = el("g", {class:"room", "data-id":r.id});
+
+    g.appendChild(el("rect", {class:"wall", x:r.x, y:r.y, width:r.w, height:r.h}));
+
+    // door opening: a gap drawn as a short swing arc on the inner wall
+    var dx = r.x + r.w * .5, dy = r.y + r.h;
+    g.appendChild(el("path", {class:"thin", d:"M " + (dx-16) + " " + dy + " a 16 16 0 0 1 16 -16"}));
+
+    // label block, top-left of each room
+    var lg = el("g", {class:"roomlabel"});
+    lg.appendChild(el("text", {class:"rnum", x:r.x + 14, y:r.y + 24}, r.n));
+    lg.appendChild(el("text", {class:"rname", x:r.x + 14, y:r.y + 44}, r.name.toUpperCase()));
+    lg.appendChild(el("text", {class:"rarea", x:r.x + 14, y:r.y + 58}, r.area + " m²"));
+
+    var ig = el("g", {class:"items"});
+    var ag = el("g", {class:"annot"});
+
+    if(r.cities){
+      r.cities.forEach(function(c){
+        var cx = r.x + 28 + c.px * (r.w - 56);
+        var cy = r.y + 74 + c.py * (r.h - 100);
+        ig.appendChild(el("circle", {class:"imark", cx:cx, cy:cy, r:3}));
+        ig.appendChild(el("text", {class:"itext", x:cx + 7, y:cy + 2.5}, c.t.toUpperCase()));
+        ag.appendChild(el("line", {class:"dim", x1:cx, y1:cy + 6, x2:cx, y2:cy + 13}));
+        ag.appendChild(el("text", {class:"atext", x:cx + 7, y:cy + 14}, c.a));
+      });
+    } else if(r.swatches){
+      r.swatches.forEach(function(s, i){
+        var col = i % 3, row = Math.floor(i / 3);
+        var sx = r.x + 20 + col * 100, sy = r.y + 76 + row * 56;
+        ig.appendChild(el("rect", {class:"swatch", x:sx, y:sy, width:34, height:22, fill:s.c}));
+        ig.appendChild(el("text", {class:"itext", x:sx, y:sy + 33}, s.t.toUpperCase()));
+        ag.appendChild(el("text", {class:"atext", x:sx, y:sy + 42}, s.a));
+      });
+    } else {
+      r.items.forEach(function(it, i){
+        var iy = r.y + 78 + i * 19;
+        ig.appendChild(el("line", {class:"imark", x1:r.x + 16, y1:iy, x2:r.x + 26, y2:iy}));
+        ig.appendChild(el("text", {class:"itext", x:r.x + 32, y:iy + 2.5}, it.t.toUpperCase()));
+        if(it.a) ag.appendChild(el("text", {class:"atext", x:r.x + 32, y:iy + 10}, it.a));
+      });
+    }
+
+    g.appendChild(ig);
+    g.appendChild(ag);
+
+    var hit = el("rect", {class:"hit", x:r.x, y:r.y, width:r.w, height:r.h});
+    hit.addEventListener("click", function(e){ e.stopPropagation(); focusRoom(r); });
+    g.insertBefore(hit, lg);
+    g.appendChild(lg);
+
+    roomsG.appendChild(g);
+  });
+
+  var view = {x:0, y:0, s:1};
+  var VIEW_CX = 500, VIEW_CY = 350;
+
+  function apply(){
+    cam.setAttribute("transform", "translate(" + view.x.toFixed(2) + "," + view.y.toFixed(2) + ") scale(" + view.s.toFixed(3) + ")");
+    svg.classList.toggle("lod1", view.s >= 1.5);
+    svg.classList.toggle("lod2", view.s >= 2.6);
+    coordOut.textContent = "X " + view.x.toFixed(2) + "  Y " + view.y.toFixed(2) + "  Z " + view.s.toFixed(2);
+    var denom = Math.round(100 / view.s);
+    scaleOut.textContent = "1:" + denom;
+  }
+
+  function focusRoom(r){
+    var pad = 1.18;
+    var s = Math.min(1000 / (r.w * pad), 700 / (r.h * pad));
+    s = Math.max(1, Math.min(6, s));
+    view.s = s;
+    view.x = VIEW_CX - (r.x + r.w / 2) * s;
+    view.y = VIEW_CY - (r.y + r.h / 2) * s;
+    document.querySelectorAll(".room").forEach(function(g){
+      g.classList.toggle("active", g.dataset.id === r.id);
+    });
+    apply();
+  }
+
+  function fit(){
+    view = {x:0, y:0, s:1};
+    document.querySelectorAll(".room").forEach(function(g){ g.classList.remove("active"); });
+    apply();
+  }
+
+  document.getElementById("fit").addEventListener("click", fit);
+  document.getElementById("zoomin").addEventListener("click", function(){
+    zoomAt(VIEW_CX, VIEW_CY, 1.5);
+  });
+
+  function zoomAt(px, py, factor){
+    var ns = Math.max(1, Math.min(6, view.s * factor));
+    var k = ns / view.s;
+    view.x = px - (px - view.x) * k;
+    view.y = py - (py - view.y) * k;
+    view.s = ns;
+    if(ns === 1){ view.x = 0; view.y = 0; }
+    apply();
+  }
+
+  function toViewBox(e){
+    var rect = svg.getBoundingClientRect();
+    var scale = Math.min(rect.width / 1000, rect.height / 700);
+    var offX = (rect.width - 1000 * scale) / 2;
+    var offY = (rect.height - 700 * scale) / 2;
+    return {
+      x: (e.clientX - rect.left - offX) / scale,
+      y: (e.clientY - rect.top - offY) / scale
+    };
+  }
+
+  canvas.addEventListener("wheel", function(e){
+    e.preventDefault();
+    var p = toViewBox(e);
+    zoomAt(p.x, p.y, e.deltaY < 0 ? 1.12 : 1 / 1.12);
+  }, {passive:false});
+
+  var drag = null;
+  canvas.addEventListener("pointerdown", function(e){
+    drag = {x:e.clientX, y:e.clientY, vx:view.x, vy:view.y, moved:false};
+    canvas.setPointerCapture(e.pointerId);
+    canvas.classList.add("dragging");
+  });
+  canvas.addEventListener("pointermove", function(e){
+    if(!drag) return;
+    var rect = svg.getBoundingClientRect();
+    var scale = Math.min(rect.width / 1000, rect.height / 700);
+    var dx = (e.clientX - drag.x) / scale, dy = (e.clientY - drag.y) / scale;
+    if(Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+    view.x = drag.vx + dx;
+    view.y = drag.vy + dy;
+    apply();
+  });
+  function endDrag(){ drag = null; canvas.classList.remove("dragging"); }
+  canvas.addEventListener("pointerup", endDrag);
+  canvas.addEventListener("pointercancel", endDrag);
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape") fit();
+  });
+
+  apply();
+</script>

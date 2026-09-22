@@ -1,0 +1,223 @@
+<title>Subtitle Reel</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap">
+<style>
+  :root{
+    --black:#070707;
+    --sub:#c9c6c0;
+    --dim:#57544f;
+    --faint:#2a2926;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--black)}
+  body{color:var(--sub);font-family:"Archivo",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+
+  .stage{position:fixed;inset:0;overflow:hidden;background:var(--black);z-index:1}
+
+  /* the freeze frame: a soft field that only appears when asked for */
+  .field{position:absolute;inset:0;opacity:0;transition:opacity 1.1s cubic-bezier(.2,.6,.2,1);pointer-events:none}
+  .stage.revealed .field{opacity:.62}
+
+  /* frame lines */
+  .frameline{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.055)}
+  .frameline.t{top:max(46px,calc(env(safe-area-inset-top,0px) + 46px))}
+  .frameline.b{bottom:max(74px,calc(env(safe-area-inset-bottom,0px) + 74px))}
+
+  .hud{position:absolute;left:0;right:0;display:flex;justify-content:space-between;gap:16px;
+       padding:16px 20px;font-family:"DM Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.16em;
+       text-transform:uppercase;color:var(--dim);font-variant-numeric:tabular-nums}
+  .hud.top{top:0;padding-top:calc(16px + env(safe-area-inset-top,0px))}
+
+  .sub{position:absolute;left:0;right:0;bottom:max(112px,calc(env(safe-area-inset-bottom,0px) + 112px));
+       padding-inline:24px;text-align:center;cursor:crosshair}
+  .subinner{opacity:1;transition:opacity .42s ease}
+  .stage.swapping .subinner{opacity:0}
+  .meta{font-family:"DM Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;min-height:12px}
+  .line{font-size:clamp(20px,3.4vw,34px);font-weight:300;line-height:1.35;letter-spacing:.005em;margin:0 auto;max-width:22ch;text-wrap:balance}
+  .line.big{font-size:clamp(28px,5.4vw,52px);letter-spacing:.02em}
+
+  .hint{position:absolute;left:0;right:0;bottom:max(84px,calc(env(safe-area-inset-bottom,0px) + 84px));text-align:center;
+        font-family:"DM Mono",ui-monospace,monospace;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);
+        transition:opacity .6s ease}
+  .hint.gone{opacity:0}
+
+  /* scrubber */
+  .scrub{position:absolute;left:0;right:0;bottom:0;padding:0 20px 18px;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));
+         display:flex;gap:4px;align-items:flex-end}
+  .chap{flex:1 1 auto;background:none;border:0;padding:0;cursor:pointer;font:inherit;text-align:left}
+  .chap .bar{display:block;height:1px;background:rgba(255,255,255,.14);transition:background .3s ease,height .3s ease}
+  .chap .lab{display:block;font-family:"DM Mono",ui-monospace,monospace;font-size:9px;letter-spacing:.18em;
+             text-transform:uppercase;color:var(--faint);margin-bottom:7px;transition:color .3s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chap[aria-current="true"] .bar{background:var(--sub);height:2px}
+  .chap[aria-current="true"] .lab{color:var(--sub)}
+  .chap:focus-visible{outline:1px solid var(--dim);outline-offset:3px}
+
+  .space{position:relative;z-index:0}
+
+  @media (max-width:620px){
+    .chap .lab{font-size:8px;letter-spacing:.08em}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="stage" id="stage">
+  <div class="field" id="field"></div>
+  <div class="frameline t"></div>
+  <div class="frameline b"></div>
+
+  <div class="hud top">
+    <span id="tc">00:00:00:00</span>
+    <span id="reel">Reel 00 / 06 — Leader</span>
+  </div>
+
+  <div class="sub" id="sub">
+    <div class="subinner" id="subinner">
+      <div class="meta" id="meta">Index — 2026</div>
+      <p class="line big" id="line">Yoonsoo Chung</p>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">Hold on the text to reveal · scroll to run the reel</div>
+
+  <div class="scrub" id="scrub"></div>
+</div>
+<div class="space" id="space"></div>
+
+<script>
+  var SCENES = [
+    {reel:0,r:"Leader",meta:"Index — 2026",line:"Yoonsoo Chung",big:true,c:null},
+    {reel:0,r:"Leader",meta:"",line:"A collection of things watched, heard, visited and noticed.",c:"#242a28"},
+
+    {reel:1,r:"Films",meta:"2016 · Denis Villeneuve",line:"Arrival",big:true,c:"#33403c"},
+    {reel:1,r:"Films",meta:"2015 · Denis Villeneuve",line:"Sicario",big:true,c:"#432b1c"},
+    {reel:1,r:"Films",meta:"2010 · Denis Villeneuve",line:"Incendies",big:true,c:"#474030"},
+    {reel:1,r:"Films",meta:"2003 · Sofia Coppola",line:"Lost in Translation",big:true,c:"#3a2438"},
+    {reel:1,r:"Films",meta:"2013 · Hirokazu Kore-eda",line:"Like Father, Like Son",big:true,c:"#3b3227"},
+
+    {reel:2,r:"Music",meta:"Listening",line:"Rachmaninoff — Piano Concerto No. 2",c:"#2b3040"},
+    {reel:2,r:"Music",meta:"Listening",line:"Mahler — Symphony No. 5, Adagietto",c:"#262f35"},
+    {reel:2,r:"Music",meta:"Listening",line:"Debussy — Préludes",c:"#2d3733"},
+    {reel:2,r:"Music",meta:"Listening",line:"Bach — Goldberg Variations, 1981",c:"#33322c"},
+
+    {reel:3,r:"Places",meta:"34.69 / 135.20",line:"Kobe",big:true,c:"#27333c"},
+    {reel:3,r:"Places",meta:"35.68 / 139.69",line:"Tokyo",big:true,c:"#352a3a"},
+    {reel:3,r:"Places",meta:"22.32 / 114.17",line:"Hong Kong",big:true,c:"#2f3a34"},
+    {reel:3,r:"Places",meta:"52.52 / 13.40",line:"Berlin",big:true,c:"#2e3134"},
+
+    {reel:4,r:"Scent",meta:"Warm · paper",line:"Byredo — Bal d'Afrique",c:"#3e3327"},
+    {reel:4,r:"Scent",meta:"Citrus · fig",line:"Acqua di Parma — Fico di Amalfi",c:"#333c2c"},
+    {reel:4,r:"Scent",meta:"Airy · salt",line:"Maison Margiela — Sailing Day",c:"#2b363c"},
+
+    {reel:5,r:"Work",meta:"Selected work",line:"01 — AI content creation",c:"#2c2c2e"},
+    {reel:5,r:"Work",meta:"Selected work",line:"02 — Conversational experience",c:"#2c2c2e"},
+    {reel:5,r:"Work",meta:"Selected work",line:"03 — Collaborative tools",c:"#2c2c2e"},
+
+    {reel:6,r:"Notes",meta:"Thinking about",line:"Why some interfaces feel obvious.",c:"#2a2d33"},
+    {reel:6,r:"Notes",meta:"Learning",line:"Vibe coding",c:"#2a2d33"},
+    {reel:6,r:"Notes",meta:"",line:"End of reel",c:null}
+  ];
+
+  var REELS = ["Leader","Films","Music","Places","Scent","Work","Notes"];
+  var TOTAL_FRAMES = 24 * 60 * 21; // ~21 minutes at 24fps
+
+  var stage = document.getElementById("stage");
+  var field = document.getElementById("field");
+  var tcEl = document.getElementById("tc");
+  var reelEl = document.getElementById("reel");
+  var metaEl = document.getElementById("meta");
+  var lineEl = document.getElementById("line");
+  var hintEl = document.getElementById("hint");
+  var scrub = document.getElementById("scrub");
+  var space = document.getElementById("space");
+
+  var current = -1;
+  var swapTimer = null;
+
+  space.style.height = (SCENES.length * 88) + "vh";
+
+  // chapter scrubber, segments sized by how many scenes each reel holds
+  REELS.forEach(function(name, i){
+    var n = SCENES.filter(function(s){ return s.reel === i; }).length;
+    var b = document.createElement("button");
+    b.className = "chap";
+    b.type = "button";
+    b.style.flexGrow = String(n);
+    b.setAttribute("aria-current","false");
+    b.innerHTML = '<span class="lab">' + String(i).padStart(2,"0") + " " + name + '</span><span class="bar"></span>';
+    b.addEventListener("click", function(){
+      var first = SCENES.findIndex(function(s){ return s.reel === i; });
+      scrollToScene(first);
+    });
+    scrub.appendChild(b);
+  });
+  var chaps = scrub.querySelectorAll(".chap");
+
+  function maxScroll(){
+    return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function scrollToScene(i){
+    var target = (i + 0.5) / SCENES.length * maxScroll();
+    window.scrollTo({ top: target, behavior: "smooth" });
+  }
+
+  function frames(p){
+    var f = Math.floor(p * TOTAL_FRAMES);
+    var ff = f % 24;
+    var s = Math.floor(f / 24) % 60;
+    var m = Math.floor(f / (24 * 60)) % 60;
+    var h = Math.floor(f / (24 * 60 * 60));
+    function p2(v){ return String(v).padStart(2,"0"); }
+    return p2(h) + ":" + p2(m) + ":" + p2(s) + ":" + p2(ff);
+  }
+
+  function render(){
+    var p = Math.min(1, Math.max(0, window.scrollY / maxScroll()));
+    tcEl.textContent = frames(p);
+
+    var i = Math.min(SCENES.length - 1, Math.floor(p * SCENES.length));
+    if(i === current) return;
+    current = i;
+    var sc = SCENES[i];
+
+    reelEl.textContent = "Reel " + String(sc.reel).padStart(2,"0") + " / 06 — " + sc.r;
+    chaps.forEach(function(c, idx){ c.setAttribute("aria-current", String(idx === sc.reel)); });
+
+    stage.classList.add("swapping");
+    clearTimeout(swapTimer);
+    swapTimer = setTimeout(function(){
+      metaEl.textContent = sc.meta || "";
+      lineEl.textContent = sc.line;
+      lineEl.className = "line" + (sc.big ? " big" : "");
+      field.style.background = sc.c
+        ? "radial-gradient(ellipse 120% 90% at 50% 46%, " + sc.c + " 0%, rgba(7,7,7,0) 72%)"
+        : "none";
+      stage.classList.remove("swapping");
+    }, 260);
+  }
+
+  var ticking = false;
+  window.addEventListener("scroll", function(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ render(); ticking = false; });
+  }, {passive:true});
+  window.addEventListener("resize", function(){ current = -1; render(); });
+
+  // freeze frame — only shows while asked for
+  var sub = document.getElementById("sub");
+  function reveal(on){
+    stage.classList.toggle("revealed", on);
+    if(on) hintEl.classList.add("gone");
+  }
+  sub.addEventListener("pointerenter", function(){ reveal(true); });
+  sub.addEventListener("pointerleave", function(){ reveal(false); });
+  sub.addEventListener("click", function(){ reveal(!stage.classList.contains("revealed")); });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "ArrowRight" || e.key === "ArrowDown"){ e.preventDefault(); scrollToScene(Math.min(SCENES.length-1, current+1)); }
+    if(e.key === "ArrowLeft" || e.key === "ArrowUp"){ e.preventDefault(); scrollToScene(Math.max(0, current-1)); }
+  });
+
+  render();
+  setTimeout(function(){ if(!stage.classList.contains("revealed")) hintEl.classList.remove("gone"); }, 10);
+</script>

@@ -1,34 +1,379 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>개인 소개</title>
+<title>Index 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="intro.css">
 </head>
 <body>
-<header>
-  <h1>TODO: 이름을 소개합니다</h1>
-  <button id="theme-btn">다크모드 전환</button>
-</header>
 
-<main class="cards">
-  <article class="card">
-    <img src="https://placehold.co/120x120" alt="프로필 사진">
-    <h2>TODO: 이름</h2>
-    <p class="role">TODO: 소속/전공</p>
-    <p>TODO: 한 줄 소개.</p>
-    <a href="https://github.com/chloeyschung">GitHub 프로필</a>
-  </article>
+<div class="sheet">
 
-  <article class="card">
-    <h2>관심 분야</h2>
-    <p class="role">무엇을 파고드나</p>
-    <p>TODO: 관심 분야 한 문장.</p>
-  </article>
-</main>
+  <header class="colophon">
+    <p class="mark">Index</p>
+    <div class="identity">
+      <h1>Yoonsoo Chung</h1>
+      <p class="blurb">A collection of things watched, heard, visited, made and noticed.</p>
+    </div>
+    <div class="ledger">
+      <div>36 entries</div>
+      <div>Seven sections</div>
+      <div>Seoul, 2026</div>
+    </div>
+  </header>
 
-<p class="nav-link"><a href="./index.html">API 연동 실습(메모장) 페이지로 이동 →</a></p>
+  <nav class="bar" id="bar" aria-label="Sections">
+    <span class="mark">Contents</span>
+    <ol class="jump">
+      <li><a href="#films" data-sec="films"><span class="n">01</span> Films</a></li>
+      <li><a href="#music" data-sec="music"><span class="n">02</span> Music</a></li>
+      <li><a href="#places" data-sec="places"><span class="n">03</span> Places</a></li>
+      <li><a href="#scent" data-sec="scent"><span class="n">04</span> Scent</a></li>
+      <li><a href="#work" data-sec="work"><span class="n">05</span> Work</a></li>
+      <li><a href="#notes" data-sec="notes"><span class="n">06</span> Notes</a></li>
+      <li><a href="#lab" data-sec="lab"><span class="n">07</span> Lab</a></li>
+    </ol>
+    <div class="seealso" id="seealso" hidden>
+      <span id="seealso-label">See also</span>
+      <button type="button" class="clear" id="clear">Clear &#215;</button>
+    </div>
+  </nav>
+
+  <section class="sec" id="films" data-sec="films">
+    <h2 class="sechead">
+      <span class="n">01</span>
+      <span class="label">Films</span>
+      <span class="count">5 entries</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <button class="row" type="button" data-id="arrival" data-rel="incendies sicario ai debussy">
+          <span class="ref">01</span>
+          <span class="ttl">Arrival<span class="note">A language that doesn&#x27;t move in one direction.</span></span>
+          <span class="meta">2016 · 116 min</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="sicario" data-rel="arrival incendies">
+          <span class="ref">02</span>
+          <span class="ttl">Sicario<span class="note">The border is mostly sound design.</span></span>
+          <span class="meta">2015 · 121 min</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="incendies" data-rel="arrival sicario brahms">
+          <span class="ref">03</span>
+          <span class="ttl">Incendies<span class="note">The maths problem was never about maths.</span></span>
+          <span class="meta">2010 · 131 min</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="lost" data-rel="tokyo loewe debussy">
+          <span class="ref">04</span>
+          <span class="ttl">Lost in Translation<span class="note">Whatever he says at the end stays theirs.</span></span>
+          <span class="meta">2003 · 102 min</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="likefather" data-rel="kobe brahms">
+          <span class="ref">05</span>
+          <span class="ttl">Like Father, Like Son<span class="note">Six years, or blood.</span></span>
+          <span class="meta">2013 · 121 min</span>
+        </button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="music" data-sec="music">
+    <h2 class="sechead">
+      <span class="n">02</span>
+      <span class="label">Music</span>
+      <span class="count">7 entries</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <button class="row" type="button" data-id="rachmaninoff" data-rel="mahler tchaikovsky chopin">
+          <span class="ref">01</span>
+          <span class="ttl">Rachmaninoff<span class="note">The second movement, mostly.</span></span>
+          <span class="meta">Piano Concerto No. 2</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="mahler" data-rel="rachmaninoff brahms">
+          <span class="ref">02</span>
+          <span class="ttl">Mahler<span class="note">Slower than marked.</span></span>
+          <span class="meta">Symphony No. 5 · Adagietto</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="chopin" data-rel="rachmaninoff tchaikovsky">
+          <span class="ref">03</span>
+          <span class="ttl">Chopin<span class="note">Background music until suddenly not.</span></span>
+          <span class="meta">Nocturnes Op. 9</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="tchaikovsky" data-rel="rachmaninoff chopin">
+          <span class="ref">04</span>
+          <span class="ttl">Tchaikovsky<span class="note">The one they called unplayable.</span></span>
+          <span class="meta">Violin Concerto in D</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="brahms" data-rel="mahler incendies bal">
+          <span class="ref">05</span>
+          <span class="ttl">Brahms<span class="note">Late, small, enough.</span></span>
+          <span class="meta">Intermezzo Op. 118 No. 2</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="debussy" data-rel="arrival bach lost">
+          <span class="ref">06</span>
+          <span class="ttl">Debussy<span class="note">Written for the pedal, not the key.</span></span>
+          <span class="meta">Preludes</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="bach" data-rel="silver debussy">
+          <span class="ref">07</span>
+          <span class="ttl">Bach<span class="note">1981, not 1955.</span></span>
+          <span class="meta">Goldberg Variations</span>
+        </button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="places" data-sec="places">
+    <h2 class="sechead">
+      <span class="n">03</span>
+      <span class="label">Places</span>
+      <span class="count">9 entries</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <button class="row" type="button" data-id="seoul" data-rel="tokyo cities">
+          <span class="ref">01</span>
+          <span class="ttl">Seoul<span class="note">Everything here has been rebuilt at least once.</span></span>
+          <span class="meta">37.57 / 126.98</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="tokyo" data-rel="lost osaka kobe seoul">
+          <span class="ref">02</span>
+          <span class="ttl">Tokyo<span class="note">Signage as a building material.</span></span>
+          <span class="meta">35.68 / 139.69</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="kobe" data-rel="osaka likefather tokyo">
+          <span class="ref">03</span>
+          <span class="ttl">Kobe<span class="note">Hills on one side, port on the other.</span></span>
+          <span class="meta">34.69 / 135.20</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="osaka" data-rel="kobe tokyo">
+          <span class="ref">04</span>
+          <span class="ttl">Osaka<span class="note">Louder, in a good way.</span></span>
+          <span class="meta">34.69 / 135.50</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="hongkong" data-rel="shenzhen guangzhou tokyo">
+          <span class="ref">05</span>
+          <span class="ttl">Hong Kong<span class="note">Vertical, and humid about it.</span></span>
+          <span class="meta">22.32 / 114.17</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="shenzhen" data-rel="guangzhou hongkong cities">
+          <span class="ref">06</span>
+          <span class="ttl">Shenzhen<span class="note">New enough that nothing is nostalgic yet.</span></span>
+          <span class="meta">22.54 / 114.06</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="guangzhou" data-rel="shenzhen hongkong">
+          <span class="ref">07</span>
+          <span class="ttl">Guangzhou<span class="note">Older than it lets on.</span></span>
+          <span class="meta">23.13 / 113.26</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="berlin" data-rel="bal paris silver">
+          <span class="ref">08</span>
+          <span class="ttl">Berlin<span class="note">Distance between buildings.</span></span>
+          <span class="meta">52.52 / 13.40</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="paris" data-rel="berlin fico">
+          <span class="ref">09</span>
+          <span class="ttl">Paris<span class="note">Zinc, at the right hour.</span></span>
+          <span class="meta">48.86 / 2.35</span>
+        </button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="scent" data-sec="scent">
+    <h2 class="sechead">
+      <span class="n">04</span>
+      <span class="label">Scent</span>
+      <span class="count">6 entries</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <button class="row" type="button" data-id="bal" data-rel="berlin brahms">
+          <span class="ref">01</span>
+          <span class="ttl">Bal d&#x27;Afrique<span class="note">Old paper, kept warm.</span></span>
+          <span class="meta">Byredo · warm, paper</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="loewe" data-rel="lost sailing">
+          <span class="ref">02</span>
+          <span class="ttl">001 Woman<span class="note">The morning after, allegedly.</span></span>
+          <span class="meta">Loewe · clean, skin</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="fico" data-rel="paris clementine">
+          <span class="ref">03</span>
+          <span class="ttl">Fico di Amalfi<span class="note">Green figs, before they are sweet.</span></span>
+          <span class="meta">Acqua di Parma · citrus, fig</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="sailing" data-rel="clementine loewe kobe">
+          <span class="ref">04</span>
+          <span class="ttl">Sailing Day<span class="note">Salt without the beach.</span></span>
+          <span class="meta">Maison Margiela · airy, salt</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="silver" data-rel="bach berlin">
+          <span class="ref">05</span>
+          <span class="ttl">Silver Mountain Water<span class="note">Cold tea, at altitude.</span></span>
+          <span class="meta">Creed · clean, cold</span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="clementine" data-rel="fico sailing">
+          <span class="ref">06</span>
+          <span class="ttl">Clementine California<span class="note">Morning, and nothing else yet.</span></span>
+          <span class="meta">Atelier Cologne · citrus, bright</span>
+        </button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="work" data-sec="work">
+    <h2 class="sechead">
+      <span class="n">05</span>
+      <span class="label">Work</span>
+      <span class="count">3 entries</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <button class="row" type="button" data-id="aicontent" data-rel="ai conversational">
+          <span class="ref">01</span>
+          <span class="ttl">AI content creation</span>
+          <span class="meta"></span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="conversational" data-rel="ai aicontent">
+          <span class="ref">02</span>
+          <span class="ttl">Conversational experience</span>
+          <span class="meta"></span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="collab" data-rel="conversational product">
+          <span class="ref">03</span>
+          <span class="ttl">Collaborative tools</span>
+          <span class="meta"></span>
+        </button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="notes" data-sec="notes">
+    <h2 class="sechead">
+      <span class="n">06</span>
+      <span class="label">Notes</span>
+      <span class="count">5 entries</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <button class="row" type="button" data-id="ai" data-rel="arrival vibe aicontent">
+          <span class="ref">01</span>
+          <span class="ttl">AI<span class="note">Mostly a question about language.</span></span>
+          <span class="meta"></span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="vibe" data-rel="ai product lab">
+          <span class="ref">02</span>
+          <span class="ttl">Vibe coding<span class="note">Describing it well turns out to be most of the work.</span></span>
+          <span class="meta"></span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="product" data-rel="human collab">
+          <span class="ref">03</span>
+          <span class="ttl">Product design<span class="note">Deciding what not to build.</span></span>
+          <span class="meta"></span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="cities" data-rel="seoul tokyo shenzhen">
+          <span class="ref">04</span>
+          <span class="ttl">Cities<span class="note">Mostly how people move at nine in the evening.</span></span>
+          <span class="meta"></span>
+        </button>
+      </li>
+      <li>
+        <button class="row" type="button" data-id="human" data-rel="product conversational">
+          <span class="ref">05</span>
+          <span class="ttl">Human behaviour<span class="note">Why some interfaces feel obvious.</span></span>
+          <span class="meta"></span>
+        </button>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec" id="lab" data-sec="lab">
+    <h2 class="sechead">
+      <span class="n">07</span>
+      <span class="label">Lab</span>
+      <span class="count">1 entry</span>
+    </h2>
+    <ol class="list">
+      <li>
+        <a class="row" href="./index.html" data-id="lab" data-rel="vibe ai">
+          <span class="ref">01</span>
+          <span class="ttl">Memo<span class="note">A small notebook, wired end to end.</span></span>
+          <span class="meta">React · FastAPI</span>
+        </a>
+      </li>
+    </ol>
+  </section>
+
+  <footer class="colophon end">
+    <p class="mark">End</p>
+    <div class="identity">
+      <p class="hint">Hover an entry for a note. Select one to see what it connects to.</p>
+    </div>
+    <div class="ledger"><div>Revised 2026.09.19</div></div>
+  </footer>
+
+</div>
 
 <script src="intro.js"></script>
 </body>

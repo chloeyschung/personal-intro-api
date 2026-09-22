@@ -1,0 +1,242 @@
+<title>Index 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#ecebe5;
+    --ink:#15161a;
+    --ink-2:#53555b;
+    --ink-3:#9a9a92;
+    --rule:#d5d3ca;
+    --mark:#2c4452;
+  }
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+    -webkit-font-smoothing:antialiased;
+    margin:0;
+  }
+  .sheet{max-width:1000px;margin:0 auto;padding-inline:20px;padding-block:clamp(40px,7vw,84px) 140px}
+
+  /* colophon */
+  .colophon{display:flex;flex-wrap:wrap;gap:36px 48px;justify-content:space-between;align-items:flex-start;padding-bottom:34px}
+  .name{font-family:"Newsreader",Georgia,serif;font-weight:200;font-size:clamp(34px,6vw,62px);line-height:1;letter-spacing:-.015em;margin:0 0 14px}
+  .stamp{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+  .blurb{font-family:"Newsreader",Georgia,serif;font-weight:300;font-size:clamp(17px,1.8vw,21px);line-height:1.5;max-width:26ch;margin:18px 0 0;color:var(--ink-2)}
+  .ledger{text-align:right;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);line-height:2;font-variant-numeric:tabular-nums}
+
+  /* filters */
+  .bar{display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);padding-block:11px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:4}
+  .f{appearance:none;background:none;border:0;padding:5px 10px;font:inherit;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);cursor:pointer}
+  .f:hover{color:var(--ink-2)}
+  .f[aria-pressed="true"]{color:var(--ink);box-shadow:inset 0 -1px 0 var(--ink)}
+  .f:focus-visible{outline:1px solid var(--mark);outline-offset:2px}
+  .seealso{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mark)}
+  .seealso[hidden]{display:none}
+  .clear{appearance:none;background:none;border:0;font:inherit;font-size:10px;letter-spacing:.18em;color:var(--ink-3);cursor:pointer;padding:4px}
+  .clear:hover{color:var(--ink)}
+
+  /* list */
+  .list{display:flex;flex-direction:column}
+  .row{
+    appearance:none;background:none;border:0;border-bottom:1px solid var(--rule);
+    width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,auto);
+    gap:6px 24px;align-items:baseline;
+    padding:13px 0;
+    transition:opacity .34s ease;
+  }
+  .row:focus-visible{outline:1px solid var(--mark);outline-offset:2px}
+  .ref{font-size:10px;letter-spacing:.1em;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .ttl{font-family:"Newsreader",Georgia,serif;font-weight:300;font-size:clamp(19px,2.3vw,27px);line-height:1.18;letter-spacing:-.005em}
+  .note{display:block;font-size:clamp(13px,1.3vw,15px);font-style:italic;color:var(--ink-2);margin-top:5px;opacity:0;transition:opacity .28s ease;line-height:1.4}
+  .row:hover .note,.row:focus-visible .note,.row.active .note{opacity:1}
+  .tail{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .tail em{font-style:normal;color:var(--ink-2)}
+
+  body.filtering .row.off{opacity:.14}
+  body.focusing .row{opacity:.13}
+  body.focusing .row.rel{opacity:1}
+  body.focusing .row.active{opacity:1}
+  .row.active .ref{color:var(--mark)}
+  .row.active .ttl{font-weight:400}
+
+  .end{margin-top:56px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3)}
+  .hint{margin-top:10px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+  @media (max-width:720px){
+    .row{grid-template-columns:52px minmax(0,1fr);gap:4px 14px;padding:12px 0}
+    .tail{grid-column:2;text-align:left;white-space:normal}
+    .ledger{text-align:left}
+    .note{opacity:1}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="sheet">
+  <header class="colophon">
+    <div>
+      <h1 class="name">Yoonsoo&nbsp;Chung</h1>
+      <div class="stamp">Index — 2026</div>
+      <p class="blurb">A collection of things watched, heard, visited, made and noticed.</p>
+    </div>
+    <div class="ledger">
+      <div><span id="count">35</span> entries</div>
+      <div>Revised 2026.09.16</div>
+      <div>Seoul</div>
+    </div>
+  </header>
+
+  <nav class="bar" id="bar">
+    <button class="f" data-cat="all" aria-pressed="true">All</button>
+    <button class="f" data-cat="film" aria-pressed="false">Film</button>
+    <button class="f" data-cat="music" aria-pressed="false">Music</button>
+    <button class="f" data-cat="place" aria-pressed="false">Place</button>
+    <button class="f" data-cat="scent" aria-pressed="false">Scent</button>
+    <button class="f" data-cat="work" aria-pressed="false">Work</button>
+    <button class="f" data-cat="note" aria-pressed="false">Note</button>
+    <div class="seealso" id="seealso" hidden>
+      <span id="seealso-label">See also</span>
+      <button class="clear" id="clear">Clear ✕</button>
+    </div>
+  </nav>
+
+  <div class="list" id="list"></div>
+
+  <div class="end">End of index</div>
+  <div class="hint">Hover an entry for a note · select an entry to see what it connects to</div>
+</div>
+
+<script>
+  var DATA = [
+    {id:"fico",t:"Acqua di Parma / Fico di Amalfi",c:"scent",m:"Citrus · fig",n:"Green figs, before they are sweet.",r:["paris","clementine"]},
+    {id:"ai",t:"AI",c:"note",m:"Currently",n:"Mostly a question about language.",r:["arrival","vibe","aicontent"]},
+    {id:"aicontent",t:"AI content creation",c:"work",m:"01",n:"",r:["ai","conversational"]},
+    {id:"arrival",t:"Arrival",c:"film",m:"2016 · 116 min",n:"A language that doesn't move in one direction.",r:["incendies","sicario","ai","debussy"]},
+    {id:"clementine",t:"Atelier Cologne / Clementine California",c:"scent",m:"Citrus · bright",n:"Morning, and nothing else yet.",r:["fico","sailing"]},
+    {id:"bach",t:"Bach",c:"music",m:"Goldberg Variations",n:"1981, not 1955.",r:["silver","debussy"]},
+    {id:"berlin",t:"Berlin",c:"place",m:"52.52 / 13.40",n:"Distance between buildings.",r:["bal","paris","silver"]},
+    {id:"brahms",t:"Brahms",c:"music",m:"Intermezzo Op. 118 No. 2",n:"Late, small, enough.",r:["mahler","incendies","bal"]},
+    {id:"bal",t:"Byredo / Bal d'Afrique",c:"scent",m:"Warm · paper",n:"Old paper, kept warm.",r:["berlin","brahms"]},
+    {id:"chopin",t:"Chopin",c:"music",m:"Nocturnes Op. 9",n:"Background music until suddenly not.",r:["rachmaninoff","tchaikovsky"]},
+    {id:"cities",t:"Cities",c:"note",m:"Currently",n:"Mostly how people move at nine in the evening.",r:["seoul","tokyo","shenzhen"]},
+    {id:"collab",t:"Collaborative tools",c:"work",m:"03",n:"",r:["conversational","product"]},
+    {id:"conversational",t:"Conversational experience",c:"work",m:"02",n:"",r:["ai","aicontent"]},
+    {id:"silver",t:"Creed / Silver Mountain Water",c:"scent",m:"Clean · cold",n:"Cold tea, at altitude.",r:["bach","berlin"]},
+    {id:"debussy",t:"Debussy",c:"music",m:"Préludes",n:"Written for the pedal, not the key.",r:["arrival","bach","lost"]},
+    {id:"guangzhou",t:"Guangzhou",c:"place",m:"23.13 / 113.26",n:"Older than it lets on.",r:["shenzhen","hongkong"]},
+    {id:"hongkong",t:"Hong Kong",c:"place",m:"22.32 / 114.17",n:"Vertical, and humid about it.",r:["shenzhen","guangzhou","tokyo"]},
+    {id:"human",t:"Human behaviour",c:"note",m:"Currently",n:"Why some interfaces feel obvious.",r:["product","conversational"]},
+    {id:"incendies",t:"Incendies",c:"film",m:"2010 · 131 min",n:"The maths problem was never about maths.",r:["arrival","sicario","brahms"]},
+    {id:"kobe",t:"Kobe",c:"place",m:"34.69 / 135.20",n:"Hills on one side, port on the other.",r:["osaka","likefather","tokyo"]},
+    {id:"likefather",t:"Like Father, Like Son",c:"film",m:"2013 · 121 min",n:"Six years, or blood.",r:["kobe","brahms"]},
+    {id:"loewe",t:"Loewe / 001 Woman",c:"scent",m:"Clean · skin",n:"The morning after, allegedly.",r:["lost","sailing"]},
+    {id:"lost",t:"Lost in Translation",c:"film",m:"2003 · 102 min",n:"Whatever he says at the end stays theirs.",r:["tokyo","loewe","debussy"]},
+    {id:"mahler",t:"Mahler",c:"music",m:"Symphony No. 5 · Adagietto",n:"Slower than marked.",r:["rachmaninoff","brahms"]},
+    {id:"sailing",t:"Maison Margiela / Sailing Day",c:"scent",m:"Airy · salt",n:"Salt without the beach.",r:["clementine","loewe","kobe"]},
+    {id:"osaka",t:"Osaka",c:"place",m:"34.69 / 135.50",n:"Louder, in a good way.",r:["kobe","tokyo"]},
+    {id:"paris",t:"Paris",c:"place",m:"48.86 / 2.35",n:"Zinc, at the right hour.",r:["berlin","fico"]},
+    {id:"product",t:"Product design",c:"note",m:"Currently",n:"Deciding what not to build.",r:["human","collab"]},
+    {id:"rachmaninoff",t:"Rachmaninoff",c:"music",m:"Piano Concerto No. 2",n:"The second movement, mostly.",r:["mahler","tchaikovsky","chopin"]},
+    {id:"seoul",t:"Seoul",c:"place",m:"37.57 / 126.98",n:"Everything here has been rebuilt at least once.",r:["tokyo","cities"]},
+    {id:"shenzhen",t:"Shenzhen",c:"place",m:"22.54 / 114.06",n:"New enough that nothing is nostalgic yet.",r:["guangzhou","hongkong","cities"]},
+    {id:"sicario",t:"Sicario",c:"film",m:"2015 · 121 min",n:"The border is mostly sound design.",r:["arrival","incendies"]},
+    {id:"tchaikovsky",t:"Tchaikovsky",c:"music",m:"Violin Concerto in D",n:"The one they called unplayable.",r:["rachmaninoff","chopin"]},
+    {id:"tokyo",t:"Tokyo",c:"place",m:"35.68 / 139.69",n:"Signage as a building material.",r:["lost","osaka","kobe","seoul"]},
+    {id:"vibe",t:"Vibe coding",c:"note",m:"Currently",n:"Describing it well turns out to be most of the work.",r:["ai","product"]}
+  ];
+
+  var list = document.getElementById("list");
+  var seealso = document.getElementById("seealso");
+  var seealsoLabel = document.getElementById("seealso-label");
+  var clearBtn = document.getElementById("clear");
+  var rows = {};
+  var activeId = null;
+  var activeCat = "all";
+
+  DATA.sort(function(a,b){ return a.t.localeCompare(b.t); });
+  document.getElementById("count").textContent = DATA.length;
+
+  // reciprocal relations
+  var linked = {};
+  DATA.forEach(function(d){ linked[d.id] = {}; });
+  DATA.forEach(function(d){
+    (d.r||[]).forEach(function(o){
+      if(!linked[o]) return;
+      linked[d.id][o] = true;
+      linked[o][d.id] = true;
+    });
+  });
+
+  var counters = {};
+  DATA.forEach(function(d){
+    var letter = d.t.charAt(0).toUpperCase();
+    counters[letter] = (counters[letter]||0) + 1;
+    var idx = DATA.indexOf(d) + 1;
+    var ref = letter + " " + String(idx).padStart(3,"0");
+
+    var b = document.createElement("button");
+    b.className = "row";
+    b.type = "button";
+    b.dataset.id = d.id;
+    b.dataset.cat = d.c;
+
+    var r = document.createElement("span"); r.className = "ref"; r.textContent = ref;
+    var t = document.createElement("span"); t.className = "ttl"; t.textContent = d.t;
+    if(d.n){
+      var n = document.createElement("span"); n.className = "note"; n.textContent = d.n;
+      t.appendChild(n);
+    }
+    var tl = document.createElement("span"); tl.className = "tail";
+    tl.innerHTML = '<em>' + d.c + '</em>' + (d.m ? ' &nbsp;·&nbsp; ' + d.m : '');
+
+    b.appendChild(r); b.appendChild(t); b.appendChild(tl);
+    b.addEventListener("click", function(){ focusEntry(d.id); });
+    list.appendChild(b);
+    rows[d.id] = b;
+  });
+
+  function focusEntry(id){
+    if(activeId === id){ clearFocus(); return; }
+    activeId = id;
+    document.body.classList.add("focusing");
+    Object.keys(rows).forEach(function(k){
+      rows[k].classList.toggle("active", k === id);
+      rows[k].classList.toggle("rel", !!linked[id][k]);
+    });
+    var entry = DATA.filter(function(d){ return d.id === id; })[0];
+    seealsoLabel.textContent = "See also — " + entry.t;
+    seealso.hidden = false;
+  }
+
+  function clearFocus(){
+    activeId = null;
+    document.body.classList.remove("focusing");
+    Object.keys(rows).forEach(function(k){
+      rows[k].classList.remove("active");
+      rows[k].classList.remove("rel");
+    });
+    seealso.hidden = true;
+  }
+
+  clearBtn.addEventListener("click", clearFocus);
+
+  document.getElementById("bar").addEventListener("click", function(e){
+    var btn = e.target.closest(".f");
+    if(!btn) return;
+    activeCat = btn.dataset.cat;
+    Array.prototype.forEach.call(document.querySelectorAll(".f"), function(f){
+      f.setAttribute("aria-pressed", String(f === btn));
+    });
+    document.body.classList.toggle("filtering", activeCat !== "all");
+    Object.keys(rows).forEach(function(k){
+      rows[k].classList.toggle("off", activeCat !== "all" && rows[k].dataset.cat !== activeCat);
+    });
+    clearFocus();
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape") clearFocus();
+  });
+</script>
